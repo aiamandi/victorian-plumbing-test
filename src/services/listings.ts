@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Product } from "../types/types";
+import type { Product, Facet, AppliedFacets, SortOptionValue } from "../types/types";
 
 const API_BASE_URL =
   "https://spanishinquisition.victorianplumbing.co.uk/interviews/listings";
@@ -10,8 +10,8 @@ export interface ListingsRequest {
   pageNumber: number;
   size: number;
   additionalPages: number;
-  sort: number;
-  filters?: Record<string, string | number | boolean | Array<string | number>>;
+  sort: SortOptionValue;
+  facets?: AppliedFacets;
 }
 
 export interface ListingsResponse {
@@ -21,23 +21,28 @@ export interface ListingsResponse {
     size: number;
     total: number;
   };
-  facets?: Record<string, unknown>;
+  facets?: Facet[];
 }
 
 export async function fetchListings(
   request: ListingsRequest,
   signal?: AbortSignal
-):Promise<ListingsResponse> {
+): Promise<ListingsResponse> {
+  const requestBody: Record<string, unknown> = {
+    query: request.query,
+    pageNumber: request.pageNumber,
+    size: request.size,
+    additionalPages: request.additionalPages,
+    sort: request.sort,
+  };
+
+  if (request.facets && Object.keys(request.facets).length > 0) {
+    requestBody.facets = request.facets;
+  }
+
   const response = await axios.post<ListingsResponse>(
     `${API_BASE_URL}?apikey=${API_KEY}`,
-    {
-      query: request.query,
-      pageNumber: request.pageNumber,
-      size: request.size,
-      additionalPages: request.additionalPages,
-      sort: request.sort,
-      ...(request.filters && { filters: request.filters }),
-    },
+    requestBody,
     {
       signal,
     }

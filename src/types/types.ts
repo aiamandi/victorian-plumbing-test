@@ -103,3 +103,24 @@ export interface Facet {
   priority: number;
   options: FacetOption[];
 }
+
+export interface PriceRangeValue {
+  gte?: number;
+  lte?: number;
+}
+
+export interface FacetFilter {
+  identifier: string;
+  value: string | PriceRangeValue;
+}
+
+export type AppliedFacets = Record<string, FacetFilter[]>;
+
+export const SortOption = {
+  Recommended: 1,
+  PriceLowToHigh: 2,
+  PriceHighToLow: 3,
+  LargestDiscount: 4,
+} as const;
+
+export type SortOptionValue = typeof SortOption[keyof typeof SortOption];

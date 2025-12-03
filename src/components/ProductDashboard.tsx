@@ -1,80 +1,75 @@
 import { useListings } from "../hooks/useListings";
 import { Filters } from "./ProductFilters";
 import { ProductCard } from "./ProductCard";
+import type { AppliedFacets, SortOptionValue } from "../types/types";
+import { SortOption } from "../types/types";
 
 export const ProductDashboard = () => {
-  const { products, loading, page, totalPages, setPage, facets, filters, setFilters, total } = useListings();
+  const { 
+    products, 
+    loading, 
+    page, 
+    totalPages, 
+    setPage, 
+    facets, 
+    appliedFacets, 
+    setAppliedFacets, 
+    total,
+    query,
+    setQuery,
+    sort,
+    setSort
+  } = useListings();
 
-  const handleFilterChange = (newFilters: Record<string, string[]>) => {
-    setFilters(newFilters);
-    setPage(0);
+  const handleFilterChange = (newFilters: AppliedFacets) => {
+    setAppliedFacets(newFilters);
+    setPage(0); 
   };
 
-  const filteredProducts = products.filter((p) => {
-    if (!filters || Object.keys(filters).length === 0) return true;
-
-    const matchFacet = (facetId: string, values: string[]) => {
-      if (!values || values.length === 0) return true;
-      switch (facetId) {
-        case "brands": {
-          const brandName = p.brand?.name?.toLowerCase();
-          return values.some((v) => v.toLowerCase() === brandName);
-        }
-        case "categories": {
-          const categorySlug = p.defaultCategory?.slug?.toLowerCase();
-          return values.some((v) => v.toLowerCase() === categorySlug);
-        }
-        case "isOnPromotion": {
-          const promoStr = p.price?.isOnPromotion ? "true" : "false";
-          return values.includes(promoStr);
-        }
-        case "prices": {
-          const price = p.price?.priceIncTax ?? p.price?.priceExcTax ?? 0;
-          return values.some((range: any) => {
-       
-            if (range && typeof range === "object") {
-              const min = typeof range.gte === "number" ? range.gte : Number.NEGATIVE_INFINITY;
-              const max = typeof range.lte === "number" ? range.lte : Number.POSITIVE_INFINITY;
-              return price >= min && price <= max;
-            }
-
-            const str = String(range);
-            const s = str.replace(/[^0-9\-]/g, "");
-            const [minStr, maxStr] = s.split("-");
-            const min = minStr ? parseFloat(minStr) : Number.NEGATIVE_INFINITY;
-            const max = maxStr ? parseFloat(maxStr) : Number.POSITIVE_INFINITY;
-            return price >= min && price <= max;
-          });
-        }
-        default: {
-
-          const bag = [
-            p.productName?.toLowerCase?.() ?? "",
-            p.brand?.name?.toLowerCase?.() ?? "",
-            p.defaultCategory?.slug?.toLowerCase?.() ?? "",
-          ];
-          return values.some((v) => bag.includes(v.toLowerCase()));
-        }
-      }
-    };
-
-    return Object.entries(filters).every(([facetId, vals]) => matchFacet(facetId, vals));
-  });
+  const handleSortChange = (newSort: number) => {
+    setSort(newSort as SortOptionValue);
+    setPage(0); 
+  };
 
   return (
     <div className="max-w-7xl mx-auto mt-8 px-4">
       <h1 className="text-2xl font-bold mb-4">Product Dashboard</h1>
-      
+      <div className="mb-6 flex gap-4 items-center">
+        <div className="flex-1">
+          <input
+            id="query"
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search our product range"
+            className="w-full px-3 py-2 border rounded-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-700 focus:border-green-700"
+          />
+        </div>
+        <div className="w-64">
+          <select
+            id="sort"
+            value={sort}
+            onChange={(e) => handleSortChange(Number(e.target.value))}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value={SortOption.Recommended}>Recommended</option>
+            <option value={SortOption.PriceLowToHigh}>Price: Low to High</option>
+            <option value={SortOption.PriceHighToLow}>Price: High to Low</option>
+            <option value={SortOption.LargestDiscount}>Largest Discount</option>
+          </select>
+        </div>
+      </div>
+
       <div className="flex gap-6">
         <Filters
           facets={facets}
-          selectedFilters={filters}
+          selectedFilters={appliedFacets}
           onChange={handleFilterChange}
         />
 
         <div className="flex-1">
           <p className="text-sm text-gray-600 mb-4">
-            {filteredProducts.length} products on this page{total ? ` • ${total} total` : ""}
+            {products.length} products on this page{total ? ` • ${total} total` : ""}
           </p>
 
           {loading && (
@@ -92,7 +87,7 @@ export const ProductDashboard = () => {
           {!loading && products.length > 0 && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
+                {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
