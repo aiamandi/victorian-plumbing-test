@@ -27,7 +27,7 @@ export interface ListingsResponse {
 export async function fetchListings(
   request: ListingsRequest,
   signal?: AbortSignal
-): Promise<ListingsResponse> {
+):Promise<ListingsResponse> {
   const response = await axios.post<ListingsResponse>(
     `${API_BASE_URL}?apikey=${API_KEY}`,
     {

@@ -10,7 +10,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const [wishlisted, setWishlisted] = useState(false);
 
   return (
-    <div className="border max-w-[300px] rounded-xl shadow-md">
+    <div className="border max-w-[300px] rounded-xl shadow-md max-h-max hover:shadow-xl transition-shadow duration-300">
       <div className="flex flex-col relative z-0">
         <img
           src={product.image.url}

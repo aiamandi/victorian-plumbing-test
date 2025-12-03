@@ -87,3 +87,19 @@ export interface Product {
   stockStatus: Stock;
   image: Image;
 }
+
+export interface FacetOption {
+  displayValue: string;
+  identifier: string
+  priority: number;
+  productCount: number;
+  value: string
+}
+
+export interface Facet {
+  displayName: string;
+  facetType: number;
+  identifier: string;
+  priority: number;
+  options: FacetOption[];
+}
