@@ -1,12 +1,12 @@
 import type { Facet, AppliedFacets, FacetFilter, PriceRangeValue } from "../types/types";
 
-interface FiltersProps {
+interface ProductFiltersProps {
   facets: Facet[];
   selectedFilters: AppliedFacets;
   onChange: (filters: AppliedFacets) => void;
 }
 
-export const Filters = ({ facets, selectedFilters, onChange }: FiltersProps) => {
+export const ProductFilters = ({ facets, selectedFilters, onChange }: ProductFiltersProps) => {
   const isChecked = (facetId: string, identifier: string) => {
     return selectedFilters[facetId]?.some((faset) => faset.identifier === identifier) || false;
   };

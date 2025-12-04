@@ -2,8 +2,8 @@ import axios from "axios";
 import type { Product, Facet, AppliedFacets, SortOptionValue } from "../types/types";
 
 const API_BASE_URL =
-  "https://spanishinquisition.victorianplumbing.co.uk/interviews/listings";
-const API_KEY = "yj2bV48J40KsBpIMLvrZZ1j1KwxN4u3A83H8IBvI";
+  import.meta.env.API_BASE_URL || "https://spanishinquisition.victorianplumbing.co.uk/interviews/listings";
+const API_KEY = import.meta.env.API_KEY || "yj2bV48J40KsBpIMLvrZZ1j1KwxN4u3A83H8IBvI";
 
 export interface ListingsRequest {
   query: string;

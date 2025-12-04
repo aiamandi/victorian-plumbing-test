@@ -1,5 +1,5 @@
 import { useListings } from "../hooks/useListings";
-import { Filters } from "./ProductFilters";
+import { ProductFilters } from "./ProductFilters";
 import { ProductCard } from "./ProductCard";
 import type { AppliedFacets, SortOptionValue } from "../types/types";
 import { SortOption } from "../types/types";
@@ -14,7 +14,6 @@ export const ProductDashboard = () => {
     facets, 
     appliedFacets, 
     setAppliedFacets, 
-    total,
     query,
     setQuery,
     sort,
@@ -61,7 +60,7 @@ export const ProductDashboard = () => {
       </div>
 
       <div className="flex gap-6 flex-col md:flex-row">
-        <Filters
+        <ProductFilters
           facets={facets}
           selectedFilters={appliedFacets}
           onChange={handleFilterChange}
@@ -69,7 +68,7 @@ export const ProductDashboard = () => {
 
         <div className="flex-1">
           <p className="text-sm text-gray-600 mb-4">
-            {products.length} products on this page{total ? ` • ${total} total` : ""}
+            {products.length} products on this page
           </p>
 
           {loading && (
