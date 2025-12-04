@@ -12,6 +12,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   // I have seen that there are 4 stock statuses and based on experience, I assumed that O either means out of stock or 0 stock so I based my logic based on that
   const isOutOfStock = product.stockStatus?.status === "O";
 
+  console.log("product price", product?.price)
+
   return (
     <div
       className={`border max-w-[300px] rounded-xl shadow-md max-h-max hover:shadow-xl transition-shadow duration-300 ${
@@ -59,17 +61,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       <div className="px-2 py-4">
-        <h3 className="font-semibold text-sm">{product.productName}</h3>
-        <p>{product.brand.name}</p>
-
+        <h3 className="font-semibold text-sm h-10 overflow-ellipsis">{product.productName}</h3>
         <div className="flex justify-end items-center">
-          <p className="text-base font-semibold">
+          {product.price?.isOnPromotion && (<span className="bg-green-700 text-white px-[0.65em] rounded-3xl mr-2 font-weight-bold">!</span>)}
+          <p className={`text-base font-semibold ${product.price?.isOnPromotion ? "text-green-700" : ""}`}>
             £{product.price.priceIncTax.toFixed(2)}
           </p>
           <button
             className={`flex flex-row justify-between items-center mt-2 ml-2 p-3 ${
               !isOutOfStock
-                ? "bg-green-600 hover:bg-gray-900"
+                ? "bg-green-700 hover:bg-gray-900"
                 : "bg-gray-400 cursor-not-allowed"
             } text-white text-xs rounded-3xl`}
             disabled={isOutOfStock}

@@ -33,7 +33,7 @@ export const ProductDashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto mt-8 px-4">
-      <h1 className="text-2xl font-bold mb-4">Product Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-6 text-green-700">Shop our latest range of products</h1>
       <div className="mb-6 flex gap-4 items-center">
         <div className="flex-1">
           <input
@@ -50,7 +50,7 @@ export const ProductDashboard = () => {
             id="sort"
             value={sort}
             onChange={(e) => handleSortChange(Number(e.target.value))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-green-700 rounded-md shadow-sm focus:outline-none focus:ring-green-700 focus:border-green-700"
           >
             <option value={SortOption.Recommended}>Recommended</option>
             <option value={SortOption.PriceLowToHigh}>Price: Low to High</option>
@@ -60,7 +60,7 @@ export const ProductDashboard = () => {
         </div>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex gap-6 flex-col md:flex-row">
         <Filters
           facets={facets}
           selectedFilters={appliedFacets}
@@ -92,11 +92,11 @@ export const ProductDashboard = () => {
                 ))}
               </div>
 
-              <div className="flex items-center justify-center gap-4 mt-8">
+              <div className="flex items-center justify-center gap-4 mt-8 flex-col md:flex-row">
                 <button
                   onClick={() => setPage(page - 1)}
                   disabled={page === 0}
-                  className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-green-700 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
@@ -106,7 +106,7 @@ export const ProductDashboard = () => {
                 <button
                   onClick={() => setPage(page + 1)}
                   disabled={page + 1 >= totalPages}
-                  className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-green-700 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   Next
                 </button>

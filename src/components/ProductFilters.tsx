@@ -37,7 +37,7 @@ export const Filters = ({ facets, selectedFilters, onChange }: FiltersProps) => 
   };
 
   return (
-    <div className="w-80 px-4">
+    <div className="w-80">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-green-700">Filters</h2>
         {Object.keys(selectedFilters).length > 0 && (
@@ -50,8 +50,11 @@ export const Filters = ({ facets, selectedFilters, onChange }: FiltersProps) => 
       {facets.length === 0 && <p className="text-sm text-gray-900 italic">No filters available</p>}
 
       {facets.map((facet) => (
-        <div className="mb-4 border rounded-lg p-3 max-h-64 overflow-y-auto" key={facet.identifier}>
-          <h3 className="text-sm font-medium text-green-700 mb-2">{facet.displayName}</h3>
+        <div className="mb-4 border rounded-lg max-h-64 overflow-y-auto" key={facet.identifier}>
+          <div className="bg-green-700 text-white px-4 py-2 rounded-t-lg">
+                      <h3 className="text-base font-medium">{facet.displayName}</h3>
+            </div>
+
           <ul className="space-y-1">
             {facet.options.map((option) => {
               return (
