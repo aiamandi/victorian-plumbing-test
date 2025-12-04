@@ -12,8 +12,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   // I have seen that there are 4 stock statuses and based on experience, I assumed that O either means out of stock or 0 stock so I based my logic based on that
   const isOutOfStock = product.stockStatus?.status === "O";
 
-  console.log("product price", product?.price)
-
   return (
     <div
       className={`border max-w-[300px] rounded-xl shadow-md max-h-max hover:shadow-xl transition-shadow duration-300 ${
